@@ -1,0 +1,61 @@
+<div class="dashboard-page">
+    <app-dashboard-header [user]="currentUser"></app-dashboard-header>
+
+    <div class="search-bar">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" placeholder="Search Task">
+        <i class="fas fa-microphone mic-icon"></i>
+    </div>
+
+    <section class="add-project-section">
+        <form [formGroup]="newProjectForm" (ngSubmit)="addNewProject()" class="new-project-form">
+            <input type="text" formControlName="projectName" placeholder="Nombre del nuevo proyecto" class="project-name-input">
+            <button type="submit" [disabled]="newProjectForm.invalid" class="add-project-button">
+                <i class="fas fa-plus"></i> Add Project
+            </button>
+        </form>
+    </section>
+
+    <section class="projects-section">
+        <div class="section-title">
+            <h2>Projects</h2>
+            <i class="fas fa-ellipsis-h project-options-icon"></i>
+        </div>
+        <div class="project-cards-wrapper">
+            <!-- Iteramos sobre los proyectos dinámicos -->
+            <!-- El routerLink se activa al hacer clic en la tarjeta -->
+            <div *ngFor="let project of projects" class="project-card" [ngClass]="project.color" [routerLink]="['/project-tasks', project.id]">
+                <div class="project-card-header">
+                    <i class="fas {{ project.icon }} project-icon"></i>
+                    <!-- Botón de eliminar proyecto -->
+                    <!-- AQUÍ ESTÁ LA CORRECCIÓN: PASAMOS $event COMO PRIMER ARGUMENTO -->
+                    <button class="delete-project-button" (click)="deleteProject($event, project.id)">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+                <div class="project-details">
+                    <p class="project-task-count">{{ project.taskCount }} Task</p>
+                    <p class="project-name">{{ project.name }}</p>
+                </div>
+                <div class="project-members">
+                    <img *ngFor="let member of project.members" [src]="member" alt="Member" class="member-photo">
+                    <span class="member-count" *ngIf="project.extraMembers > 0">+{{ project.extraMembers }}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tasks-section">
+        <div class="section-title">
+            <h2>Today Tasks</h2>
+            <i class="fas fa-angle-right"></i>
+            <h2>Week</h2>
+            <i class="fas fa-angle-right"></i>
+            <h2>Month</h2>
+        </div>
+        <app-todo-list></app-todo-list>
+           <app-tabs></app-tabs>
+    </section>
+    
+ 
+</div>

@@ -1,0 +1,28 @@
+<!-- tabs.component.html -->
+<div class="app-mobile-container">
+    <div class="content-wrapper">
+ <!-- El router-outlet renderizará DashboardComponent o TasksComponent -->
+    </div>
+    
+    <!-- Barra de Navegación Inferior -->
+    <nav class="bottom-tabs">
+        <!-- Cada enlace del tab apuntará a una ruta -->
+        <a routerLink="/dashboard" routerLinkActive="active" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span class="tab-label">Home</span>
+        </a>
+        <a routerLink="/tasks" routerLinkActive="active" class="tab-item">
+            <i class="fas fa-list-check tab-icon"></i>
+            <span class="tab-label">Tasks</span>
+        </a>
+        <!-- Otros tabs -->
+        <a routerLink="/projects" routerLinkActive="active" class="tab-item">
+            <i class="fas fa-folder tab-icon"></i>
+            <span class="tab-label">Projects</span>
+        </a>
+        <a routerLink="/profile" routerLinkActive="active" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span class="tab-label">Profile</span>
+        </a>
+    </nav>
+</div>

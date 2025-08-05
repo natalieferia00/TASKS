@@ -1,1 +1,86 @@
-/* You can add global styles to this file, and also import other style files */
+// Importa la fuente Roboto de Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+// Importa Font Awesome para los iconos de navegación
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+// Reset de estilos
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+// Estilos globales del body y html
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5; // Un fondo gris claro para el contenedor de la app
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; // Evita el scroll del body principal
+}
+
+// Contenedor principal de la aplicación móvil
+.app-mobile-container {
+    width: 100%;
+    max-width: 500px; // El ancho máximo de un dispositivo móvil típico
+    height: 100%;
+    max-height: 850px; // La altura máxima de un dispositivo móvil típico
+    background-color: #ffffff; // Fondo blanco para la aplicación
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; // Para que el contenido no se salga de los bordes redondeados
+
+    @media (max-width: 500px) {
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 0; // Sin bordes redondeados en pantallas muy pequeñas
+    }
+}
+
+// Wrapper para el contenido principal (para que la barra de navegación no se desplace)
+.content-wrapper {
+    flex: 1;
+    overflow-y: auto; // Permite el scroll dentro del área de contenido
+    padding: 1.5rem; // Padding interno para las vistas
+}
+
+// Estilos de la barra de navegación inferior
+.bottom-tabs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 70px;
+    background-color: #ffffff;
+    border-top: 1px solid #e0e0e0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.tab-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #bdbdbd; // Color por defecto de los iconos inactivos
+    transition: color 0.3s ease;
+}
+
+.tab-item.active {
+    color: #4b6cb7; // Color de los iconos activos
+}
+
+.tab-icon {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.tab-label {
+    font-size: 0.75rem;
+}

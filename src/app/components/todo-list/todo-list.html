@@ -1,0 +1,40 @@
+<div class="todo-list-container">
+    <h2>Mi Lista de Tareas</h2>
+
+    <!-- Formulario para agregar una nueva tarea -->
+    <form [formGroup]="taskForm" (ngSubmit)="addTask()" class="task-form">
+        <div class="form-group">
+            <input type="text" formControlName="text" placeholder="Nueva tarea..." class="task-input">
+            <select formControlName="category" class="category-select">
+                <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+            <button type="submit" class="add-button" [disabled]="taskForm.invalid">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </form>
+
+    <!-- Lista de tareas -->
+    <div class="tasks-list">
+        <div *ngIf="tasks.length === 0" class="empty-list-message">
+            No tienes tareas pendientes. ¡Crea una!
+        </div>
+        <div *ngFor="let task of tasks" class="task-item" [ngClass]="{'completed': task.completed}">
+            <div class="task-details">
+                <span class="color-dot" [ngStyle]="{'background-color': task.color}"></span>
+                <p class="task-text">{{ task.text }}</p>
+            </div>
+            <div class="task-actions">
+                <button (click)="editTask(task)" class="action-button edit-button">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button (click)="toggleCompleted(task)" class="action-button complete-button">
+                    <i class="fas" [ngClass]="{'fa-check-square': task.completed, 'fa-square': !task.completed}"></i>
+                </button>
+                <button (click)="deleteTask(task.id)" class="action-button delete-button">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
