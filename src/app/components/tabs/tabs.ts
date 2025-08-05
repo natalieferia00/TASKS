@@ -3,11 +3,10 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Asegúrate de importar CommonModule
 import { AuthService } from '../../services/auth';
 
-
 @Component({
     selector: 'app-tabs',
     standalone: true,
-    imports: [RouterLink, RouterLinkActive, CommonModule, ],
+    imports: [RouterLink, RouterLinkActive, CommonModule, RouterOutlet],
     templateUrl: './tabs.html',
     styleUrl: './tabs.scss'
 })
