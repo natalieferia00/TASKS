@@ -89,7 +89,7 @@ h2 {
 
     .empty-list-message {
         text-align: center;
-        color: #777777;
+        color: #ffffff;
         padding: 1rem;
     }
 
@@ -98,7 +98,7 @@ h2 {
         align-items: center;
         justify-content: space-between;
         padding: 1rem;
-        background-color: #f9f9f9;
+        background-color: #000000;
         border-radius: 8px;
         transition: background-color 0.3s ease;
         
@@ -106,7 +106,7 @@ h2 {
             background-color: #e8f5e9;
             .task-text {
                 text-decoration: line-through;
-                color: #777777;
+                color: #ffffff;
             }
         }
 
@@ -135,7 +135,7 @@ h2 {
                 border: none;
                 cursor: pointer;
                 font-size: 0.9rem;
-                color: #777777;
+                color: #ffffff;
                 padding: 0.5rem;
                 transition: color 0.3s ease;
                 

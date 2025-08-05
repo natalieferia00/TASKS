@@ -31,10 +31,10 @@ export class TodoListComponent implements OnInit {
 
     // Colores para las categorías
     categoryColors: { [key: string]: string } = {
-        'Work': '#4B6CB7',
-        'Personal': '#F5826A',
-        'Study': '#7C63C4',
-        'Shopping': '#5A8BFD'
+        'Work': '#a000fe',
+        'Personal': '#ffffffff',
+        'Study': '#858383ff',
+        'Shopping': '#c5c5c5ff'
     };
     
     // Categorías disponibles
