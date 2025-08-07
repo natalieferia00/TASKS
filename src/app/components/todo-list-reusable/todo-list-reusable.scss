@@ -1,0 +1,183 @@
+/* Estilos generales del contenedor de la lista de tareas */
+.todo-list-container {
+    width: 90%;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1.5rem; /* Reducimos el padding en pantallas pequeñas */
+    background-color: #121212; /* Fondo muy oscuro */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+    font-family: 'Inter', sans-serif;
+    color: #e0e0e0; /* Texto claro */
+}
+
+/* Estilos del formulario de nueva tarea */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+form input[type="text"],
+form input[type="date"],
+form select {
+    flex: 1 1 100%;
+    padding: 12px;
+    background-color: #2b2b2b; /* Fondo de inputs oscuro */
+    color: #e0e0e0; /* Texto de inputs claro */
+    border: 1px solid #444444; /* Borde oscuro */
+    border-radius: 8px;
+    font-size: 1rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+form input[type="text"]:focus,
+form input[type="date"]:focus,
+form select:focus {
+    outline: none;
+    border-color: #6a0dad; /* Borde al hacer focus */
+}
+
+/* En pantallas más grandes, los campos ocupan menos espacio */
+@media (min-width: 600px) {
+    form input[type="text"] {
+        flex: 2;
+    }
+
+    form input[type="date"],
+    form select {
+        flex: 1;
+    }
+}
+
+form button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #6a0dad;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+@media (min-width: 600px) {
+    form button {
+        width: auto;
+        flex: 0 0 auto;
+    }
+}
+
+form button:disabled {
+    background-color: #444444;
+    cursor: not-allowed;
+    color: #888888;
+}
+
+form button:hover:not(:disabled) {
+    background-color: #5a009a;
+}
+
+/* Estilos de la lista de tareas */
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-list li {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #2b2b2b; /* Fondo de cada tarea más oscuro */
+    border-radius: 8px;
+    border-left: 5px solid;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (min-width: 600px) {
+    .task-list li {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.task-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Sombra más oscura al hacer hover */
+}
+
+.task-list li.completed {
+    background-color: #1a1a1a; /* Fondo de tarea completada aún más oscuro */
+    opacity: 0.8;
+}
+
+.task-list li.completed .task-text {
+    text-decoration: line-through;
+    color: #888888;
+}
+
+.task-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.task-text {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #e0e0e0;
+}
+
+.task-date {
+    font-size: 0.8rem;
+    color: #b0b0b0;
+    margin-top: 4px;
+}
+
+.task-category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    background-color: #6a0dad;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+    align-self: flex-start;
+}
+
+.task-actions {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+@media (min-width: 600px) {
+    .task-actions {
+        margin-top: 0;
+    }
+}
+
+.task-actions button {
+    background: none;
+    border: none;
+    color: #a000fe; /* Color de íconos claro */
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.task-actions button:hover {
+    color: #b339ff; /* Color de hover más claro */
+    transform: scale(1.1);
+}

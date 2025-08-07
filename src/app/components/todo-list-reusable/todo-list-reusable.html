@@ -1,0 +1,33 @@
+<div class="todo-list-container">
+  <form [formGroup]="taskForm" (ngSubmit)="addTask()">
+    <input type="text" formControlName="text" placeholder="Nueva tarea..." />
+    <input type="date" formControlName="date" />
+    <select formControlName="category">
+      <option *ngFor="let category of categories" [value]="category">
+        {{ category }}
+      </option>
+    </select>
+    <button type="submit" [disabled]="taskForm.invalid">Agregar</button>
+  </form>
+
+  <ul class="task-list">
+    <li *ngFor="let task of tasks" [class.completed]="task.completed" [style.borderLeftColor]="task.color">
+      <div class="task-info">
+        <span class="task-text">{{ task.text }}</span>
+        <span class="task-category" *ngIf="task.category">{{ task.category }}</span>
+        <span class="task-date" *ngIf="task.date">{{ task.date | date }}</span>
+      </div>
+      <div class="task-actions">
+        <button (click)="toggleCompleted(task)">
+          <i [class]="task.completed ? 'fas fa-check-circle' : 'far fa-circle'"></i>
+        </button>
+        <button (click)="editTask(task)">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button (click)="deleteTask(task.id)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>

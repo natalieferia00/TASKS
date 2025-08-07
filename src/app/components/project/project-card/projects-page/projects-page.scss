@@ -1,0 +1,181 @@
+.projects-page-container {
+    padding: 1.5rem;
+    background-color: #000000; /* Fondo oscuro */
+    min-height: 100vh;
+    color: #ffffff; /* Color de texto general */
+    box-sizing: border-box; /* Incluye padding en el ancho/alto */
+
+    @media (min-width: 500px) {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    h2 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #ffffff;
+    }
+}
+
+/* Estilos para la sección de agregar nuevo proyecto (similar al dashboard) */
+.add-project-section {
+    margin-bottom: 2rem;
+    .new-project-form {
+        display: flex;
+        gap: 0.5rem;
+        flex-direction: column; /* Apilado en móvil */
+
+        @media (min-width: 500px) {
+            flex-direction: row; /* En fila en pantallas grandes */
+        }
+
+        .project-name-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #444;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            &::placeholder {
+                color: #888;
+            }
+        }
+
+        .add-project-button {
+            width: 100%; /* Ancho completo en móvil */
+            padding: 0.75rem 1rem;
+            background-color: #a000fe;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            @media (min-width: 500px) {
+                width: auto; /* Ancho automático en pantallas grandes */
+            }
+
+            &:disabled {
+                background-color: #444;
+                color: #888;
+                cursor: not-allowed;
+            }
+            &:hover:not(:disabled) {
+                background-color: #c266ff;
+            }
+        }
+    }
+}
+
+/* Estilos para la cuadrícula de tarjetas de proyectos */
+.projects-list-section {
+    .empty-list-message {
+        text-align: center;
+        color: #777777;
+        padding: 2rem;
+        font-size: 1.1rem;
+    }
+
+    .project-cards-grid {
+        display: grid;
+        grid-template-columns: 1fr; /* Una columna en móvil */
+        gap: 1.5rem; /* Espacio entre tarjetas */
+
+        @media (min-width: 500px) {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 2+ columnas en pantallas grandes */
+        }
+    }
+
+    .project-card {
+        height: 200px;
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        color: #ffffff;
+        
+        &:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Clases de color para las tarjetas (puedes añadir más) */
+        &.app-design-card { background-color: #a000fe; } /* Púrpura */
+        &.dashboard-card { background-color: #eb4f6c; } /* Rojo/Rosa */
+        &.default-card { background-color: #a000fe;} /* Gris por defecto */
+
+        .project-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* Alinea los elementos al inicio */
+            
+            .project-icon {
+                font-size: 1.8rem; /* Icono más grande */
+            }
+
+            .project-actions {
+                display: flex;
+                gap: 0.5rem; /* Espacio entre botones de acción */
+                
+                .action-button {
+                    background: none;
+                    border: none;
+                    color: rgba(255, 255, 255, 0.8);
+                    font-size: 1.1rem; /* Tamaño de los iconos de acción */
+                    cursor: pointer;
+                    transition: color 0.3s ease;
+                    padding: 0.5rem; /* Aumentar el área de toque */
+
+                    &:hover {
+                        color: white;
+                    }
+                }
+                .edit-button:hover { color: #4B6CB7; } /* Azul para editar */
+                .delete-button:hover { color: #e53935; } /* Rojo para eliminar */
+            }
+        }
+        
+        .project-details { 
+            margin-top: auto; 
+            p.project-task-count {
+                font-size: 0.9rem;
+                font-weight: 300;
+                opacity: 0.8;
+            }
+            p.project-name {
+                font-size: 1.2rem;
+                font-weight: 500;
+            }
+        }
+        
+        .project-members {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+            
+            .member-photo {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                border: 2px solid #fff;
+                margin-right: -10px;
+            }
+            .member-count { 
+                margin-left: 15px; 
+                font-size: 0.9rem;
+            }
+        }
+    }
+}

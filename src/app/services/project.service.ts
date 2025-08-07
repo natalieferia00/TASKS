@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
 // Definición de interfaces para los modelos de datos
-interface Task {
+export interface Task {
     id: number;
     text: string;
     completed: boolean;
 }
 
-interface Project {
+export interface Project {
     id: number;
     name: string;
     taskCount: number;

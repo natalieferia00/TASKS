@@ -1,60 +1,93 @@
-// Contenedor principal de la aplicación móvil, simula la pantalla de un teléfono.
+/* Contenedor principal de la aplicación móvil */
 .app-mobile-container {
-    width: 100%;
-    max-width: 500px;
-    height: 100%;
-    max-height: 850px;
-    background-color: #000000;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  max-height: 850px;
+  background-color: #000000;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 
-    @media (max-width: 500px) {
-        max-width: 100%;
-        max-height: 100%;
-        border-radius: 0;
-    }
+  @media (max-width: 500px) {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+  }
 }
 
-// Wrapper para el contenido principal con scroll.
+/* Contenido principal scrollable */
 .content-wrapper {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1.5rem;
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
 }
 
-// Estilos para la barra de navegación inferior.
-.bottom-tabs {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 70px;
-    background-color: #000000;
-    border-top: 1px solid #e0e0e0;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+/* Contenedor general de tabs y contenido */
+.tabs-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
+/* Envoltura de los ítems de navegación inferior */
+.tab-items-wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 80px;
+  background-color: #000000;
+  border-top: 1px solid #e0e0e0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Cada ítem de la tab */
 .tab-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: #bdbdbd; // Color por defecto de los íconos inactivos.
-    transition: color 0.3s ease;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #bdbdbd;
+  transition: color 0.3s ease;
+  font-family: sans-serif;
 }
 
+/* Ítem activo */
 .tab-item.active {
-    color:    #a000fe; // Color de los íconos activos.
+  color: #a000fe;
 }
 
+/* Iconos */
 .tab-icon {
-    font-size: 1.5rem;
-    margin-bottom: 5px;
+  font-size: 1.2rem;
+  margin-bottom: 4px;
 }
 
+/* Texto de los tabs */
 .tab-label {
-    font-size: 0.75rem;
+  font-size: 0.75rem;
+}
+
+/* Estilo opcional para el botón de logout */
+.logout-item {
+  color: #ff5252;
+}
+
+.logout-item:hover {
+  color: #ff0000;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .tab-icon {
+    font-size: 1.15rem;
+  }
+
+  .tab-label {
+    font-size: 0.65rem;
+  }
 }
