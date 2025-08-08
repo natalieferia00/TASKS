@@ -1,29 +1,37 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 
 import { DashboardHeaderComponent } from "../dashboard-header/dashboard-header";
 import { TabsComponent } from "../tabs/tabs";
 import { TodoListComponent } from "../todo-list/todo-list";
 import { AuthService } from '../../services/auth';
 import { ProjectService } from '../../services/project.service';
+import { SearchTasksComponent } from "../search-bar/search-bar";
+import { ProgressChartComponent } from "../progress-chart/progress-chart";
+import { CalendarListComponent } from "../calendar-list/calendar-list";
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
     imports: [
-        CommonModule,
-        TabsComponent,
-        DashboardHeaderComponent,
-        TodoListComponent,
-        ReactiveFormsModule,
-        RouterLink
-    ],
+    CommonModule,
+    DashboardHeaderComponent,
+    TodoListComponent,
+    ReactiveFormsModule,
+    SearchTasksComponent,
+    ProgressChartComponent,
+    CalendarListComponent,
+       RouterModule
+],
     templateUrl: './dashboard.html',
     styleUrl: './dashboard.scss'
 })
 export class DashboardComponent implements OnInit {
+addNewProject() {
+throw new Error('Method not implemented.');
+}
     private authService = inject(AuthService);
     private projectService = inject(ProjectService);
     private fb = inject(FormBuilder);
@@ -56,15 +64,7 @@ export class DashboardComponent implements OnInit {
         this.projects = this.projectService.getProjects();
     }
 
-    // Método para agregar un nuevo proyecto
-    addNewProject(): void {
-        if (this.newProjectForm.valid) {
-            const projectName = this.newProjectForm.value.projectName;
-            this.projectService.addProject(projectName);
-            this.loadProjects(); // Volver a cargar los proyectos para actualizar la vista
-            this.newProjectForm.reset();
-        }
-    }
+ 
 
     // Método para eliminar un proyecto
     deleteProject(event: Event, projectId: number): void {

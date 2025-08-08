@@ -1,88 +1,84 @@
 <div class="habits-container">
-  <div class="habits-card">
-    <div class="logo-container">
-      <img src="logotasks.png" alt="Logo Tasks" class="header-logo" />
+    <div class="habits-card">
+        <div class="logo-container">
+            <img src="logotasks.png" alt="Logo Tasks" class="header-logo" />
+        </div>
+
+        <h2>Mis Hábitos</h2>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="name">Nuevo hábito</label>
+                <input
+                    type="text"
+                    id="name"
+                    formControlName="name"
+                    placeholder="Ej. Beber agua, leer 30 min..."
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="duration">Duración (días)</label>
+                <input
+                    type="number"
+                    id="duration"
+                    formControlName="duration"
+                    min="1"
+                    max="365"
+                />
+            </div>
+
+            <button type="submit" [disabled]="form.invalid">
+                {{ editingHabitId !== null ? 'Actualizar hábito' : 'Agregar hábito' }}
+            </button>
+        </form>
+
+        <p *ngIf="registerError" class="error-message">
+            Hubo un error. Intenta nuevamente.
+        </p>
+
+        <div class="habits-list">
+            <div class="habit-item" *ngFor="let habit of habits">
+                <div class="habit-info">
+                    <span class="habit-name">{{ habit.name }}</span>
+                </div>
+
+                <div class="habit-calendar">
+                    <label>Días cumplidos: {{ getCompletedDays(habit) }} / {{ habit.duration }}</label>
+                    <div class="day-checks">
+                        <label
+                            *ngFor="let checked of habit.progress; let i = index"
+                            class="day-box"
+                            [ngClass]="getDayStatus(habit, i)"
+                        >
+                            <input
+                                type="checkbox"
+                                [checked]="checked"
+                                (change)="toggleDayProgress(habit, i)"
+
+                            />
+                            <span>{{ i + 1 }}</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="habit-actions">
+                    <button class="edit" (click)="editHabit(habit)">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete" (click)="deleteHabit(habit.id)">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="habits.length === 0" class="empty-state">
+                No has agregado hábitos aún.
+            </div>
+        </div>
+
+        <p class="login-link">
+            ¿Volver? <a [routerLink]="['/dashboard']">Ir al dashboard</a>
+        </p>
     </div>
-
-    <h2>Mis Hábitos</h2>
-
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="name">Nuevo hábito</label>
-        <input
-          type="text"
-          id="name"
-          formControlName="name"
-          placeholder="Ej. Beber agua, leer 30 min..."
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="duration">Duración (días)</label>
-        <input
-          type="number"
-          id="duration"
-          formControlName="duration"
-          min="1"
-          max="365"
-        />
-      </div>
-
-      <button type="submit" [disabled]="form.invalid">
-        {{ editingHabitId !== null ? 'Actualizar hábito' : 'Agregar hábito' }}
-      </button>
-    </form>
-
-    <p *ngIf="registerError" class="error-message">
-      Hubo un error. Intenta nuevamente.
-    </p>
-
-    <div class="habits-list">
-      <div
-        class="habit-item"
-        *ngFor="let habit of habits"
-
-      >
-        <div class="habit-info">
-          <span class="habit-name">{{ habit.name }}</span>
-        </div>
-
-        <div class="habit-calendar">
-          <label>Días cumplidos: {{ getCompletedDays(habit) }} / {{ habit.duration }}</label>
-          <div class="day-checks">
-            <label
-              *ngFor="let checked of habit.progress; let i = index"
-              class="day-box"
-              [ngClass]="getDayStatus(habit, i)"
-            >
-              <input
-                type="checkbox"
-                [checked]="checked"
-                (change)="toggleDayProgress(habit, i)"
-                [disabled]="getDayStatus(habit, i) === 'pending'"
-              />
-              <span>{{ i + 1 }}</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="habit-actions">
-          <button class="edit" (click)="editHabit(habit)">
-            <i class="fas fa-edit"></i>
-          </button>
-          <button class="delete" (click)="deleteHabit(habit.id)">
-            <i class="fas fa-trash-alt"></i>
-          </button>
-        </div>
-      </div>
-
-      <div *ngIf="habits.length === 0" class="empty-state">
-        No has agregado hábitos aún.
-      </div>
-    </div>
-
-    <p class="login-link">
-      ¿Volver? <a [routerLink]="['/dashboard']">Ir al dashboard</a>
-    </p>
-  </div>
 </div>

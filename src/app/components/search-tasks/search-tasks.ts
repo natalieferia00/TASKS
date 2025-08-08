@@ -14,8 +14,8 @@ interface Task {
   selector: 'app-search-tasks',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './search-bar.html',
-  styleUrl: './search-bar.scss'
+  templateUrl: './search-tasks.html',
+  styleUrl: './search-tasks.scss'
 })
 export class SearchTasksComponent implements OnInit {
   // Término de búsqueda enlazado al input

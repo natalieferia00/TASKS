@@ -1,12 +1,6 @@
 <div class="dashboard-page">
   <app-dashboard-header [user]="currentUser"></app-dashboard-header>
-
-  <div class="search-bar">
-    <i class="fas fa-search search-icon"></i>
-    <input type="text" placeholder="Search Task" />
-    <i class="fas fa-microphone mic-icon"></i>
-  </div>
-
+<app-search-tasks></app-search-tasks>
   <section class="add-project-section">
     <form [formGroup]="newProjectForm" (ngSubmit)="addNewProject()" class="new-project-form">
       <input type="text" formControlName="projectName" placeholder="Nombre del nuevo proyecto" class="project-name-input">
@@ -40,7 +34,7 @@
       </div>
     </div>
   </section>
-
+<app-calendar-list></app-calendar-list>
   <section class="tasks-section">
     <div class="section-title">
       <h2>Today Tasks</h2>
@@ -52,4 +46,5 @@
     <app-todo-list></app-todo-list>
     
   </section>
+  <app-progress-chart></app-progress-chart>
 </div>

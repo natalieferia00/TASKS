@@ -107,7 +107,7 @@ export class ProjectService {
     }
 
     // Agregar un nuevo proyecto
-    addProject(name: string): Project {
+    addProject(name: string,): Project {
         const newProject: Project = {
             id: this.nextProjectId++,
             name: name,

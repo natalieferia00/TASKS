@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -18,7 +18,7 @@ interface Habit {
   templateUrl: './tasks.html',
   styleUrls: ['./tasks.scss']
 })
-export class HabitsComponent {
+export class HabitsComponent implements OnInit {
   form: FormGroup;
   habits: Habit[] = [];
   editingHabitId: number | null = null;
@@ -30,12 +30,15 @@ export class HabitsComponent {
       duration: [21, [Validators.required, Validators.min(1), Validators.max(365)]]
     });
 
-    // ✅ Cargar hábitos desde localStorage
     const storedHabits = localStorage.getItem('habits');
     if (storedHabits) {
       this.habits = JSON.parse(storedHabits);
       this.habits.forEach(h => h.startDate = new Date(h.startDate));
     }
+  }
+
+  ngOnInit(): void {
+    // Puedes agregar lógica de inicialización aquí si la necesitas
   }
 
   onSubmit() {
@@ -67,28 +70,25 @@ export class HabitsComponent {
   }
 
   toggleDayProgress(habit: Habit, index: number) {
-    const today = new Date();
-    const habitStart = new Date(habit.startDate);
-    const allowedDate = new Date(habitStart);
-    allowedDate.setDate(habitStart.getDate() + index);
+    // Creamos una nueva copia del array de progreso para evitar efectos secundarios
+    const newProgress = [...habit.progress];
+    newProgress[index] = !newProgress[index];
 
-    if (today >= allowedDate) {
-      habit.progress[index] = !habit.progress[index];
-      this.saveHabitsToStorage();
-    }
+    // Actualizamos la propiedad progress de forma inmutable
+    const updatedHabits = this.habits.map(h => 
+      h.id === habit.id ? { ...h, progress: newProgress } : h
+    );
+    this.habits = updatedHabits;
+
+    this.saveHabitsToStorage();
   }
 
   getCompletedDays(habit: Habit): number {
     return habit.progress.filter(p => p).length;
   }
-
-  getDayStatus(habit: Habit, index: number): 'completed' | 'missed' | 'pending' {
-    const today = new Date();
-    const habitStart = new Date(habit.startDate);
-    const dayDate = new Date(habitStart);
-    dayDate.setDate(habitStart.getDate() + index);
-
-    if (dayDate > today) return 'pending';
+  
+  // Esta función ahora solo devuelve el estado "completo" o "perdido"
+  getDayStatus(habit: Habit, index: number): 'completed' | 'missed' {
     return habit.progress[index] ? 'completed' : 'missed';
   }
 

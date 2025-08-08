@@ -1,0 +1,53 @@
+<div class="calendar-card">
+    <div class="calendar-header">
+        <h3>Calendario</h3>
+        <span class="current-month">{{ currentDate | date:'MMMM yyyy' }}</span>
+    </div>
+
+    <div class="filter-tabs">
+        <button 
+            [class.active]="activeFilter === 'today'" 
+            (click)="filterEvents('today')"
+        >
+            Hoy
+        </button>
+        <button 
+            [class.active]="activeFilter === 'week'" 
+            (click)="filterEvents('week')"
+        >
+            Semana
+        </button>
+        <button 
+            [class.active]="activeFilter === 'month'" 
+            (click)="filterEvents('month')"
+        >
+            Mes
+        </button>
+    </div>
+
+    <div class="event-list">
+        <div *ngIf="filteredEvents.length === 0" class="empty-state">
+            No tienes tareas para {{ activeFilter === 'today' ? 'hoy' : (activeFilter === 'week' ? 'esta semana' : 'este mes') }}.
+        </div>
+
+        <div *ngFor="let event of filteredEvents" class="event-item">
+            <input 
+                type="checkbox" 
+                [id]="'event-' + event.id" 
+                [checked]="event.completed" 
+                (change)="toggleCompletion(event)"
+            >
+            <label 
+                [for]="'event-' + event.id" 
+                [class.completed]="event.completed"
+            >
+                <div class="event-time">
+                    <span>{{ event.date | date:'shortTime' }}</span>
+                </div>
+                <div class="event-details">
+                    <span class="event-title">{{ event.title }}</span>
+                </div>
+            </label>
+        </div>
+    </div>
+</div>
