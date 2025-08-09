@@ -42,7 +42,8 @@
                 [class.completed]="event.completed"
             >
                 <div class="event-time">
-                    <span>{{ event.date | date:'shortTime' }}</span>
+                    <!-- Muestra la hora de inicio de la tarea directamente -->
+                    <span>{{ event.startTime }} - {{ event.endTime }}</span>
                 </div>
                 <div class="event-details">
                     <span class="event-title">{{ event.title }}</span>

@@ -13,7 +13,6 @@
   <section class="projects-section">
     <div class="section-title">
       <h2>Projects</h2>
-      <i class="fas fa-ellipsis-h project-options-icon"></i>
     </div>
     <div class="project-cards-wrapper">
       <div *ngFor="let project of projects" class="project-card" [ngClass]="project.color" [routerLink]="['/project-tasks', project.id]">

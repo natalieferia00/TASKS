@@ -1,45 +1,60 @@
 <div class="todo-list-container">
-  <h2>Mi Lista de Tareas</h2>
+<h2>Mi Lista de Tareas</h2>
 
-  <form [formGroup]="taskForm" (ngSubmit)="addTask()" class="task-form">
-    <div class="form-group">
-      <input type="text" formControlName="text" placeholder="Nueva tarea..." class="task-input">
-      <input type="date" formControlName="date" class="date-input">
-      <select formControlName="category" class="category-select">
-        <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
-      </select>
-      <button type="submit" class="add-button" [disabled]="taskForm.invalid">
-        <i class="fas fa-plus"></i>
-      </button>
+<form [formGroup]="taskForm" (ngSubmit)="addTask()" class="task-form">
+   <div class="form-group">
+  <input type="text" formControlName="text" placeholder="Nueva tarea..." class="task-input">
+       </div>
+
+    <div class="form-group date-and-time-group">
+      <!-- Campo para la fecha -->
+       <input type="date" formControlName="date" class="date-input">
+      <!-- Campo para la hora de inicio -->
+      <input type="time" formControlName="startTime" class="time-input">
+      <!-- Campo para la hora de fin -->
+      <input type="time" formControlName="endTime" class="time-input">
+      
     </div>
+
+    <div class="form-group">
+       <select formControlName="category" class="category-select">
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+       </select>
+       <button type="submit" class="add-button" [disabled]="taskForm.invalid">
+        <i class="fas fa-plus"></i>
+         </button>
+       </div>
+    
   </form>
 
-  <div class="tasks-list">
-    <div *ngIf="tasks.length === 0" class="empty-list-message">
-      No tienes tareas pendientes. ¡Crea una!
-    </div>
-    <div *ngFor="let task of tasks" class="task-item" [ngClass]="{'completed': task.completed}">
-      <div class="task-details">
-        <span class="color-dot" [ngStyle]="{'background-color': task.color}"></span>
-        <div>
-          <p class="task-text">{{ task.text }}</p>
-          <div class="task-meta">
-            <small class="task-date"><i class=""></i> {{ task.date }}</small>
-            <small class="task-category">{{ task.category }}</small>
-          </div>
+   <div class="tasks-list">
+     <div *ngIf="tasks.length === 0" class="empty-list-message">
+     No tienes tareas pendientes. ¡Crea una!
+     </div>
+     <div *ngFor="let task of tasks" class="task-item" [ngClass]="{'completed': task.completed}">
+       <div class="task-details">
+         <span class="color-dot" [ngStyle]="{'background-color': task.color}"></span>
+         <div>
+           <p class="task-text">{{ task.text }}</p>
+           <div class="task-meta">
+             <small class="task-date">
+              {{ task.date }} | {{ task.startTime }} - {{ task.endTime }}
+            </small>
+           <small class="task-category">{{ task.category }}</small>
+           </div>
         </div>
-      </div>
-      <div class="task-actions">
+         </div>
+       <div class="task-actions">
         <button (click)="editTask(task)" class="action-button edit-button">
-          <i class="fas fa-edit"></i>
-        </button>
-        <button (click)="toggleCompleted(task)" class="action-button complete-button">
-          <i class="fas" [ngClass]="{'fa-check-square': task.completed, 'fa-square': !task.completed}"></i>
-        </button>
+           <i class="fas fa-edit"></i>
+         </button>
+         <button (click)="toggleCompleted(task)" class="action-button complete-button">
+           <i class="fas" [ngClass]="{'fa-check-square': task.completed, 'fa-square': !task.completed}"></i>
+           </button>
         <button (click)="deleteTask(task.id)" class="action-button delete-button">
           <i class="fas fa-trash-alt"></i>
-        </button>
-      </div>
+           </button>
+        </div>
     </div>
-  </div>
+     </div>
 </div>

@@ -6,6 +6,8 @@ interface CalendarEvent {
   id: number;
   title: string;
   date: Date;
+  startTime: string; // Nuevo campo para la hora de inicio
+  endTime: string;   // Nuevo campo para la hora de fin
   completed: boolean;
 }
 
@@ -14,6 +16,8 @@ interface StoredTask {
   id: number;
   text: string;
   date: string;
+  startTime: string; // Nuevo campo para la hora de inicio
+  endTime: string;   // Nuevo campo para la hora de fin
   category: string;
   completed: boolean;
   color: string;
@@ -54,6 +58,8 @@ export class CalendarListComponent implements OnInit {
         id: task.id,
         title: task.text,
         date: new Date(task.date), // Convertir la fecha de string a objeto Date
+        startTime: task.startTime, // Asignar el nuevo campo
+        endTime: task.endTime,     // Asignar el nuevo campo
         completed: task.completed,
       }));
     }
@@ -66,6 +72,8 @@ export class CalendarListComponent implements OnInit {
       id: event.id,
       text: event.title,
       date: event.date.toISOString().split('T')[0], // Formato YYYY-MM-DD
+      startTime: event.startTime, // Guardar el nuevo campo
+      endTime: event.endTime,     // Guardar el nuevo campo
       category: 'General', // O una categoría por defecto
       completed: event.completed,
       color: '#ffffff' // O un color por defecto

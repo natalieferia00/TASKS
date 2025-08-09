@@ -1,12 +1,15 @@
 <header class="dashboard-header">
-    <div class="user-greeting">
-        <!-- El ícono de hamburguesa, que podría usarse para un menú lateral -->
-        <div class="greeting-text">
-            <!-- Usamos el operador de navegación segura para evitar el error -->
-            <p class="greeting">Hello, {{ user?.name }}</p>
-            <!-- También lo aplicamos a taskCount y profileImage para ser consistentes -->
-            <h1 class="task-count">You have {{ user?.taskCount }} tasks today</h1>
-        </div>
+  <div class="user-info">
+    <div class="user-info-text">
+      <p class="greeting">Hola, {{ user?.name }}</p>
+      <!-- Mostrar el conteo de tareas de hoy -->
+      <h1 *ngIf="tasksToday > 0" class="tasks-today-text">
+        Tienes {{ tasksToday }} tareas hoy
+      </h1>
+      <!-- Mensaje si no hay tareas -->
+      <h1 *ngIf="tasksToday === 0" class="tasks-today-text">
+        Hoy no tienes tareas pendientes
+      </h1>
     </div>
-
+  </div>
 </header>

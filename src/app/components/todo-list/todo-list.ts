@@ -1,11 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 interface Task {
   id: number;
   text: string;
   date: string;
+  // Nuevas propiedades para la hora de inicio y fin
+  startTime: string;
+  endTime: string;
   category: string;
   completed: boolean;
   color: string;
@@ -16,19 +24,18 @@ interface Task {
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './todo-list.html',
-  styleUrl: './todo-list.scss'
+  styleUrl: './todo-list.scss',
 })
 export class TodoListComponent implements OnInit {
-
   taskForm: FormGroup;
   tasks: Task[] = [];
   nextId = 1;
 
   categoryColors: { [key: string]: string } = {
-    'Work': '#a000fe',
-    'Personal': '#ffffff',
-    'Study': '#858383ff',
-    'Shopping': '#c5c5c5ff'
+    Work: '#a000fe',
+    Personal: '#ffffff',
+    Study: '#858383ff',
+    Shopping: '#c5c5c5ff',
   };
 
   categories: string[] = ['Work', 'Personal', 'Study', 'Shopping'];
@@ -37,7 +44,10 @@ export class TodoListComponent implements OnInit {
     this.taskForm = this.fb.group({
       text: ['', Validators.required],
       date: ['', Validators.required],
-      category: [this.categories[0], Validators.required]
+      // Nuevos campos para la hora de inicio y fin
+      startTime: ['', Validators.required],
+      endTime: ['', Validators.required],
+      category: [this.categories[0], Validators.required],
     });
   }
 
@@ -64,9 +74,12 @@ export class TodoListComponent implements OnInit {
         id: this.nextId++,
         text: this.taskForm.value.text,
         date: this.taskForm.value.date,
+        // Agregamos los nuevos valores del formulario
+        startTime: this.taskForm.value.startTime,
+        endTime: this.taskForm.value.endTime,
         category: this.taskForm.value.category,
         completed: false,
-        color: this.categoryColors[this.taskForm.value.category]
+        color: this.categoryColors[this.taskForm.value.category],
       };
       this.tasks.push(newTask);
       this.saveTasks();
@@ -80,12 +93,12 @@ export class TodoListComponent implements OnInit {
   }
 
   deleteTask(id: number): void {
-    this.tasks = this.tasks.filter(task => task.id !== id);
+    this.tasks = this.tasks.filter((task) => task.id !== id);
     this.saveTasks();
   }
 
   editTask(task: Task): void {
-    const newText = prompt("Edita la tarea:", task.text);
+    const newText = prompt('Edita la tarea:', task.text);
     if (newText !== null && newText.trim() !== '') {
       task.text = newText;
       this.saveTasks();
