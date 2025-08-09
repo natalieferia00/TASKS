@@ -1,182 +1,305 @@
 .habits-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  padding: 2rem 1rem 5rem;
-  background-color: #000;
-  color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 2rem 1rem 5rem;
+    background-color: #000;
+    color: #fff;
 }
 
 .habits-card {
-  width: 100%;
-  max-width: 500px;
-  background-color: #0a0a0a;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 500px;
+    background-color: #0a0a0a;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 .logo-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
 
-  .header-logo {
-    width: 80px;
-    height: auto;
-    border-radius: 12px;
-  }
+    .header-logo {
+        width: 80px;
+        height: auto;
+        border-radius: 12px;
+    }
 }
 
 h2 {
-  text-align: center;
-  font-size: 1.7rem;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
+    text-align: center;
+    font-size: 1.7rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
 
-  label {
-    margin-bottom: 0.5rem;
-    color: #ccc;
-    font-size: 0.95rem;
-  }
-
-  input {
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    background-color: #111;
-    color: #fff;
-    font-size: 1rem;
-    border: 1px solid #333;
-
-    &::placeholder {
-      color: #888;
+    label {
+        margin-bottom: 0.5rem;
+        color: #ccc;
+        font-size: 0.95rem;
     }
-  }
+
+    input {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        background-color: #111;
+        color: #fff;
+        font-size: 1rem;
+        border: 1px solid #333;
+
+        &::placeholder {
+            color: #888;
+        }
+    }
+}
+
+.color-selector {
+    margin-bottom: 1.5rem;
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #ccc;
+        font-size: 0.95rem;
+    }
+    
+    .color-options {
+        display: flex;
+        gap: 0.5rem;
+
+        button {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border-color 0.3s;
+
+            &.selected {
+                border-color: #fff;
+            }
+
+            &.color-purple { background-color: #a000fe; }
+            &.color-blue { background-color: #2b00ff; }
+            &.color-red { background-color: #e53935; }
+            &.color-yellow { background-color: #ffc107; }
+            &.color-black { background-color: #000; }
+            &.color-gray { background-color: #6c757d; }
+        }
+    }
 }
 
 button[type="submit"] {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  background-color: #a000fe;
-  color: white;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background-color: #a000fe;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 
-  &:disabled {
-    background-color: #555;
-    cursor: not-allowed;
-  }
+    &:disabled {
+        background-color: #555;
+        cursor: not-allowed;
+    }
 
-  &:hover:not(:disabled) {
-    background-color: #9400e0;
-  }
+    &:hover:not(:disabled) {
+        background-color: #9400e0;
+    }
 }
 
 .error-message {
-  color: #ff6b6b;
-  text-align: center;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
+    color: #ff6b6b;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
 }
 
 .habits-list {
-  margin-top: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .habit-item {
-  background-color: #111;
-  border: 1px solid #333;
-  padding: 1rem;
-  border-radius: 10px;
+    background-color: #111;
+    border: 1px solid #333;
+    padding: 1rem;
+    border-radius: 10px;
 
-  .habit-name {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #fff;
-  }
+    .habit-name {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #fff;
+    }
 }
 
 .habit-calendar {
-  margin-top: 1rem;
-  background-color: #181818;
-  padding: 1rem;
-  border-radius: 10px;
-  border: 1px solid #333;
+    margin-top: 1rem;
+    background-color: #181818;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid #333;
 }
 
 .habit-calendar label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  display: block;
-  color: #ccc;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: #ccc;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: #333;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+
+    .progress-fill {
+        height: 100%;
+        transition: width 0.5s ease;
+    }
 }
 
 .day-checks {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-  gap: 8px;
-  margin-top: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    gap: 8px;
+    margin-top: 0.5rem;
 }
 
 .day-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 6px 4px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  background-color: #222;
-  border: 1px solid #444;
-  transition: all 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 4px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    background-color: #222;
+    border: 1px solid #444;
+    transition: all 0.2s ease-in-out;
 
-  input[type="checkbox"] {
-    margin-bottom: 4px;
-    width: 16px;
-    height: 16px;
-    accent-color: #a000fe;
-  }
+    input[type="checkbox"] {
+        margin-bottom: 4px;
+        width: 16px;
+        height: 16px;
+    }
+    
+    &.missed {
+        background-color: #ff0000;
+        color: #ffd6d6;
+    }
 
-  &.completed {
-    background-color: #a000fe;
-    color: #c8facc;
-  }
+    &.pending {
+        background-color: #333;
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
 
-  &.missed {
-    background-color: #ff0000;
-    color: #ffd6d6;
-  }
+/* Clases dinámicas para los colores del calendario */
+.color-purple {
+    .day-box.completed, .progress-fill { background-color: #a000fe; }
+    input[type="checkbox"] { accent-color: #a000fe; }
+}
+.color-blue {
+    .day-box.completed, .progress-fill { background-color: #2b00ff; }
+    input[type="checkbox"] { accent-color: #2b00ff; }
+}
+.color-red {
+    .day-box.completed, .progress-fill { background-color: #e53935; }
+    input[type="checkbox"] { accent-color: #e53935; }
+}
+.color-yellow {
+    .day-box.completed, .progress-fill { background-color: #ffc107; }
+    input[type="checkbox"] { accent-color: #ffc107; }
+    .day-box.completed { color: #333; }
+}
+.color-black {
+    .day-box.completed, .progress-fill { background-color: #000; }
+    input[type="checkbox"] { accent-color: #000; }
+    .day-box.completed { color: #fff; }
+}
+.color-gray {
+    .day-box.completed, .progress-fill { background-color: #6c757d; }
+    input[type="checkbox"] { accent-color: #6c757d; }
+}
 
-  &.pending {
-    background-color: #333;
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+
+/* Estilos para los mensajes de ánimo */
+.completion-message, .progress-message {
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.completion-message {
+    background-color: #4caf50;
+    color: white;
+}
+
+.progress-message {
+    background-color: #ff9800;
+    color: #333;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 2rem;
+    color: #aaa;
+    
+    a {
+        color: #a000fe;
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #c266ff;
+        }
+    }
+}
+
+.empty-state {
+    text-align: center;
+    color: #777777;
+    padding: 2rem;
+    font-size: 1.1rem;
 }
 
 .habit-actions {
-  margin-top: 1rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
 
-  button {
-    background: none;
-    border: none;
-    color: #a000fe;
-    font-size: 1.1rem;
-    cursor: pointe
-  }}
+    button {
+        background: none;
+        border: none;
+        color: #a000fe;
+        font-size: 1.1rem;
+        cursor: pointer;
+    }
+}

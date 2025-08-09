@@ -1,7 +1,5 @@
 <div class="habits-container">
     <div class="habits-card">
-    
-
         <h2>Mis Hábitos</h2>
 
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -26,6 +24,19 @@
                 />
             </div>
 
+            <!-- Selector de color actualizado -->
+            <div class="color-selector">
+                <label>Color del hábito</label>
+                <div class="color-options">
+                    <button type="button" class="color-purple" (click)="selectedColor='purple'"></button>
+                    <button type="button" class="color-blue" (click)="selectedColor='blue'"></button>
+                    <button type="button" class="color-red" (click)="selectedColor='red'"></button>
+                    <button type="button" class="color-yellow" (click)="selectedColor='yellow'"></button>
+                    <button type="button" class="color-black" (click)="selectedColor='black'"></button>
+                    <button type="button" class="color-gray" (click)="selectedColor='gray'"></button>
+                </div>
+            </div>
+
             <button type="submit" [disabled]="form.invalid">
                 {{ editingHabitId !== null ? 'Actualizar hábito' : 'Agregar hábito' }}
             </button>
@@ -36,13 +47,17 @@
         </p>
 
         <div class="habits-list">
-            <div class="habit-item" *ngFor="let habit of habits">
+            <div class="habit-item" *ngFor="let habit of habits" [ngClass]="'color-' + habit.color">
                 <div class="habit-info">
                     <span class="habit-name">{{ habit.name }}</span>
                 </div>
 
                 <div class="habit-calendar">
-                    <label>Días cumplidos: {{ getCompletedDays(habit) }} / {{ habit.duration }}</label>
+                    <label>Progreso: {{ getCompletedDays(habit) }} / {{ habit.duration }} días</label>
+                    <!-- Barra de progreso -->
+                    <div class="progress-bar">
+                        <div class="progress-fill" [style.width.%]="(getCompletedDays(habit) / habit.duration) * 100"></div>
+                    </div>
                     <div class="day-checks">
                         <label
                             *ngFor="let checked of habit.progress; let i = index"
@@ -53,10 +68,16 @@
                                 type="checkbox"
                                 [checked]="checked"
                                 (change)="toggleDayProgress(habit, i)"
-
                             />
                             <span>{{ i + 1 }}</span>
                         </label>
+                    </div>
+                    <!-- Comentarios de ánimo -->
+                    <div *ngIf="getCompletedDays(habit) === habit.duration" class="completion-message">
+                        ¡Felicidades! Completaste este hábito. 
+                    </div>
+                    <div *ngIf="getCompletedDays(habit) > 0 && getCompletedDays(habit) < habit.duration" class="progress-message">
+                        ¡Vas por buen camino, no te rindas! 
                     </div>
                 </div>
 

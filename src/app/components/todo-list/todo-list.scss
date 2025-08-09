@@ -23,6 +23,30 @@ h2 {
     border-radius: 12px;
 }
 
+.form-group-category {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    align-items: center;
+}
+
+// Contenedor principal de la sección de nueva categoría
+.new-category-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+// Contenedor para el selector de color y el botón de guardar
+.new-category-controls {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+}
+
 .form-group {
     display: flex;
     flex-direction: column;
@@ -59,7 +83,7 @@ h2 {
     color: #bbb;
 }
 
-.task-input, .date-input, .time-input, .category-select {
+.task-input, .date-input, .time-input, .category-select, .category-input {
     flex: 1;
     padding: 0.8rem 1rem;
     border: 1px solid #3a3a3a;
@@ -100,6 +124,52 @@ h2 {
         cursor: not-allowed;
     }
 }
+
+.add-category-button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.2rem;
+
+    &:hover {
+        background-color: #66bb6a;
+    }
+}
+
+.save-category-button {
+    background-color:  #a000fe;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+
+    &:hover:not([disabled]) {
+        background-color: #c266ff;
+    }
+    
+    &:disabled {
+        background-color: #555;
+        cursor: not-allowed;
+    }
+}
+
+.color-picker {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid #555;
+    background: transparent;
+}
+
 
 /* Estilos de la lista de tareas */
 .tasks-list {

@@ -102,19 +102,20 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        transition: transform 0.3s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añadida transición para box-shadow */
         cursor: pointer;
         position: relative;
         color: #ffffff;
         
         &:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* Sombra más grande al pasar el cursor */
         }
         
-        /* Clases de color para las tarjetas (puedes añadir más) */
-        &.app-design-card { background-color: #a000fe; } /* Púrpura */
-        &.dashboard-card { background-color: #eb4f6c; } /* Rojo/Rosa */
-        &.default-card { background-color: #a000fe;} /* Gris por defecto */
+        /* Aplicar los colores por defecto con nth-child */
+        &:nth-child(3n + 1) { background-color: #a000fe; } /* Morado */
+        &:nth-child(3n + 2) { background-color: #2b00ff; } /* Azul */
+        &:nth-child(3n + 3) { background-color: #e53935; } /* Rojo */
 
         .project-card-header {
             display: flex;

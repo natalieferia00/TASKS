@@ -3,12 +3,14 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+// Definición de la interfaz Habit con la nueva propiedad 'color'
 interface Habit {
   id: number;
   name: string;
   duration: number;
   startDate: Date;
   progress: boolean[];
+  color: string; // Nuevo campo para el color del hábito
 }
 
 @Component({
@@ -23,6 +25,7 @@ export class HabitsComponent implements OnInit {
   habits: Habit[] = [];
   editingHabitId: number | null = null;
   registerError: any;
+  selectedColor: string = 'purple'; // Color por defecto para los nuevos hábitos
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
@@ -33,12 +36,18 @@ export class HabitsComponent implements OnInit {
     const storedHabits = localStorage.getItem('habits');
     if (storedHabits) {
       this.habits = JSON.parse(storedHabits);
-      this.habits.forEach(h => h.startDate = new Date(h.startDate));
+      this.habits.forEach(h => {
+        h.startDate = new Date(h.startDate);
+        // Establecer un color por defecto si no existe (para hábitos antiguos)
+        if (!h.color) {
+          h.color = 'purple';
+        }
+      });
     }
   }
 
   ngOnInit(): void {
-    // Puedes agregar lógica de inicialización aquí si la necesitas
+    // Lógica de inicialización
   }
 
   onSubmit() {
@@ -48,6 +57,7 @@ export class HabitsComponent implements OnInit {
     if (!name || duration < 1) return;
 
     if (this.editingHabitId !== null) {
+      // Si se está editando, actualiza el hábito y mantiene el color existente
       this.habits = this.habits.map(h =>
         h.id === this.editingHabitId
           ? { ...h, name, duration, progress: new Array(duration).fill(false) }
@@ -55,12 +65,14 @@ export class HabitsComponent implements OnInit {
       );
       this.editingHabitId = null;
     } else {
+      // Si es un nuevo hábito, se crea con el color seleccionado
       const newHabit: Habit = {
         id: Date.now(),
         name,
         duration,
         startDate: new Date(),
-        progress: new Array(duration).fill(false)
+        progress: new Array(duration).fill(false),
+        color: this.selectedColor // Asignar el color seleccionado
       };
       this.habits.push(newHabit);
     }
@@ -70,12 +82,10 @@ export class HabitsComponent implements OnInit {
   }
 
   toggleDayProgress(habit: Habit, index: number) {
-    // Creamos una nueva copia del array de progreso para evitar efectos secundarios
     const newProgress = [...habit.progress];
     newProgress[index] = !newProgress[index];
 
-    // Actualizamos la propiedad progress de forma inmutable
-    const updatedHabits = this.habits.map(h => 
+    const updatedHabits = this.habits.map(h =>
       h.id === habit.id ? { ...h, progress: newProgress } : h
     );
     this.habits = updatedHabits;
@@ -87,8 +97,15 @@ export class HabitsComponent implements OnInit {
     return habit.progress.filter(p => p).length;
   }
   
-  // Esta función ahora solo devuelve el estado "completo" o "perdido"
-  getDayStatus(habit: Habit, index: number): 'completed' | 'missed' {
+  getDayStatus(habit: Habit, index: number): 'completed' | 'missed' | 'pending' {
+    const today = new Date();
+    const habitDay = new Date(habit.startDate);
+    habitDay.setDate(habitDay.getDate() + index);
+
+    if (habitDay > today) {
+      return 'pending';
+    }
+
     return habit.progress[index] ? 'completed' : 'missed';
   }
 
@@ -98,6 +115,8 @@ export class HabitsComponent implements OnInit {
       duration: habit.duration
     });
     this.editingHabitId = habit.id;
+    // Establecer el color seleccionado al editar
+    this.selectedColor = habit.color;
   }
 
   deleteHabit(id: number) {
