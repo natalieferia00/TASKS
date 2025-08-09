@@ -30,17 +30,25 @@
             <button type="submit" class="add-button" [disabled]="taskForm.invalid">
                 <i class="fas fa-plus"></i>
             </button>
-            <button
-                type="button"
-                class="add-category-button"
-                (click)="showNewCategoryInput = !showNewCategoryInput"
-            >
-                <i class="fas fa-plus"></i>
-            </button>
         </div>
+    </form>
 
+    <!-- Botón de gestión de categorías y su contenido ahora están fuera del formulario -->
+    <div class="category-management-toggle">
+        <button
+            type="button"
+            class="manage-categories-button"
+            (click)="showCategoryManagement = !showCategoryManagement"
+        >
+            <span>Gestionar categorías</span>
+        </button>
+    </div>
+    
+    <!-- Sección para gestionar categorías (CRUD) -->
+    <div *ngIf="showCategoryManagement" class="category-management-section">
+        <h3>Gestionar Categorías</h3>
         <!-- Inputs para crear una nueva categoría -->
-        <div *ngIf="showNewCategoryInput" class="new-category-section">
+        <div class="new-category-section">
             <div class="form-group">
                 <input
                     type="text"
@@ -63,11 +71,22 @@
                     (click)="addCategory()"
                     [disabled]="!newCategoryName"
                 >
-                    Guardar categoría
+                    <i class="fas fa-plus"></i>
                 </button>
             </div>
         </div>
-    </form>
+        
+        <!-- Lista de categorías existentes para eliminar -->
+        <ul class="category-list">
+            <li *ngFor="let cat of categories" class="category-item">
+                <span class="color-dot" [ngStyle]="{'background-color': categoryColors[cat]}"></span>
+                <span>{{ cat }}</span>
+                <button class="delete-category-button" (click)="deleteCategory(cat)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </li>
+        </ul>
+    </div>
 
     <div class="tasks-list">
         <div *ngIf="tasks.length === 0" class="empty-list-message">
