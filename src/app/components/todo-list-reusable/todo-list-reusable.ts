@@ -29,8 +29,11 @@ export interface Task {
 })
 export class TodoListComponent implements OnInit {
 
+  // AÑADE ESTA LÍNEA: Acepta el ID del proyecto como un Input.
+  // Esto resuelve el error "Can't bind to 'projectId'".
+  @Input() projectId: number | undefined;
+
   // Recibe la lista de tareas del componente padre
-  // Ahora también se gestionará en el localStorage
   @Input() tasks: Task[] = [];
 
   // Emite eventos para que el padre gestione las acciones
@@ -70,7 +73,9 @@ export class TodoListComponent implements OnInit {
     this.loadDataFromLocalStorage();
 
     // 2. Establecer los valores iniciales en el formulario una vez que los datos estén cargados
-    this.taskForm.get('category')?.setValue(this.categories[0]);
+    if (this.categories.length > 0) {
+      this.taskForm.get('category')?.setValue(this.categories[0]);
+    }
     this.taskForm.get('tags')?.setValue(this.taskTags);
   }
 
@@ -79,38 +84,41 @@ export class TodoListComponent implements OnInit {
    * Si no hay datos guardados, utiliza valores predeterminados.
    */
   private loadDataFromLocalStorage(): void {
-    // Cargar Tareas
-    const savedTasks = localStorage.getItem('tasks');
-    if (savedTasks) {
-      this.tasks = JSON.parse(savedTasks);
-    } else {
-      // Si no hay tareas guardadas, usa un array vacío
+    if (!this.projectId) {
+      // Manejar el caso sin projectId para valores predeterminados
       this.tasks = [];
+      this.categories = ['Work', 'Personal', 'Study', 'Shopping'];
+      this.categoryColors = { 'Work': '#6200ea', 'Personal': '#03dac6', 'Study': '#ffc107', 'Shopping': '#e91e63' };
+      this.tags = [{ name: 'Urgente', color: '#f44336' }, { name: 'Casi terminado', color: '#ffeb3b' }, { name: 'Proyecto A', color: '#2196f3' }, { name: 'Compras', color: '#e91e63' }];
+      this.availableTags = this.tags.map(tag => tag.name);
+      return;
     }
 
+    const tasksKey = `tasks-${this.projectId}`;
+    const categoriesKey = `categories-${this.projectId}`;
+    const categoryColorsKey = `categoryColors-${this.projectId}`;
+    const tagsKey = `tags-${this.projectId}`;
+
+    // Cargar Tareas
+    const savedTasks = localStorage.getItem(tasksKey);
+    this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
+
     // Cargar Categorías
-    const savedCategories = localStorage.getItem('categories');
-    const savedCategoryColors = localStorage.getItem('categoryColors');
+    const savedCategories = localStorage.getItem(categoriesKey);
+    const savedCategoryColors = localStorage.getItem(categoryColorsKey);
     if (savedCategories && savedCategoryColors) {
       this.categories = JSON.parse(savedCategories);
       this.categoryColors = JSON.parse(savedCategoryColors);
     } else {
-      // Valores predeterminados si no hay categorías guardadas
       this.categories = ['Work', 'Personal', 'Study', 'Shopping'];
-      this.categoryColors = {
-        'Work': '#6200ea',
-        'Personal': '#03dac6',
-        'Study': '#ffc107',
-        'Shopping': '#e91e63'
-      };
+      this.categoryColors = { 'Work': '#6200ea', 'Personal': '#03dac6', 'Study': '#ffc107', 'Shopping': '#e91e63' };
     }
 
     // Cargar Etiquetas
-    const savedTags = localStorage.getItem('tags');
+    const savedTags = localStorage.getItem(tagsKey);
     if (savedTags) {
       this.tags = JSON.parse(savedTags);
     } else {
-      // Valores predeterminados si no hay etiquetas guardadas
       this.tags = [
         { name: 'Urgente', color: '#f44336' },
         { name: 'Casi terminado', color: '#ffeb3b' },
@@ -125,22 +133,28 @@ export class TodoListComponent implements OnInit {
    * Guarda las tareas, categorías y etiquetas en el localStorage.
    */
   private saveDataToLocalStorage(): void {
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
-    localStorage.setItem('categories', JSON.stringify(this.categories));
-    localStorage.setItem('categoryColors', JSON.stringify(this.categoryColors));
-    localStorage.setItem('tags', JSON.stringify(this.tags));
+    if (!this.projectId) return;
+
+    const tasksKey = `tasks-${this.projectId}`;
+    const categoriesKey = `categories-${this.projectId}`;
+    const categoryColorsKey = `categoryColors-${this.projectId}`;
+    const tagsKey = `tags-${this.projectId}`;
+
+    localStorage.setItem(tasksKey, JSON.stringify(this.tasks));
+    localStorage.setItem(categoriesKey, JSON.stringify(this.categories));
+    localStorage.setItem(categoryColorsKey, JSON.stringify(this.categoryColors));
+    localStorage.setItem(tagsKey, JSON.stringify(this.tags));
   }
 
   addTask(): void {
     if (this.taskForm.valid) {
       const newTask = this.taskForm.value;
       newTask.tags = this.tags.filter(tag => this.taskTags.includes(tag.name));
-      this.taskAdded.emit(newTask);
-      
-      // Añadir la nueva tarea a la lista local y guardar
+
       this.tasks.push({ ...newTask, id: Date.now(), completed: false });
       this.saveDataToLocalStorage();
 
+      this.taskAdded.emit(newTask);
       this.taskForm.reset({ category: this.categories[0], tags: [] });
       this.taskTags = [];
     }
@@ -163,7 +177,6 @@ export class TodoListComponent implements OnInit {
   }
 
   editTask(task: Task): void {
-    // Reemplazando `prompt` con una solución que no causa problemas en el entorno
     const newText = window.prompt("Edita la tarea:", task.text);
     if (newText !== null && newText.trim() !== '') {
       const updatedTask = { ...task, text: newText };

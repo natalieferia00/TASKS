@@ -1,3 +1,4 @@
+// project-detail.component.ts
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -5,8 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 // Importa el servicio y las interfaces que definen tus modelos de datos
 import { ProjectService, Task, Project } from '../../services/project.service';
 
-// Importa el componente de lista de tareas reutilizable que creaste.
-// Se ha corregido el nombre para que coincida con el componente exportado.
+// Importa el componente de lista de tareas reutilizable.
 import { TodoListComponent } from '../../components/todo-list-reusable/todo-list-reusable';
 
 @Component({
@@ -18,8 +18,13 @@ import { TodoListComponent } from '../../components/todo-list-reusable/todo-list
     @if (project) {
       <div class="project-detail-container">
         <h2 class="project-title">Tareas del proyecto: {{ project.name }}</h2>
-        <!-- Se ha corregido la etiqueta del componente para que coincida con el selector del componente de lista de tareas -->
+        <!-- 
+          Pasamos el ID del proyecto al componente de lista de tareas.
+          Esto permite que cada instancia de app-todo-list gestione su propia lista de tareas
+          de forma independiente, por ejemplo, usando el ID como clave en localStorage.
+        -->
         <app-todo-list
+          [projectId]="project.id"
           [tasks]="project.tasks"
           (taskAdded)="addTask($event)"
           (taskUpdated)="updateTask($event)"
@@ -31,7 +36,7 @@ import { TodoListComponent } from '../../components/todo-list-reusable/todo-list
       <p>Proyecto no encontrado.</p>
     }
   `,
-  styleUrls: ['./project-detail.scss'] // Asegúrate de que el nombre del archivo de estilos sea correcto
+  styleUrls: ['./project-detail.scss']
 })
 export class ProjectDetailComponent implements OnInit {
 
@@ -52,9 +57,9 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   /**
-   * Maneja el evento de adición de una tarea.
+   * Maneja el evento de adición de una tarea desde el componente hijo.
    * Llama al servicio para agregar la tarea y luego recarga el proyecto.
-   * @param newTaskData Datos de la nueva tarea (sin id ni estado 'completed').
+   * @param newTaskData Datos de la nueva tarea.
    */
   addTask(newTaskData: Omit<Task, 'id' | 'completed'>): void {
     if (this.project) {

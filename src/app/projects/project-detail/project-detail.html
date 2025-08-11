@@ -1,10 +1,12 @@
 <div class="project-detail-container">
-  <h2 class="project-title">Tareas del proyecto: {{ project.name }}</h2>
-  <app-todo-list-reusable
-    [tasks]="project.tasks"
-    (taskAdded)="addTask($event)"
-    (taskUpdated)="updateTask($event)"
-    (taskDeleted)="deleteTask($event)"
-    (taskToggled)="toggleTask($event)">
-  </app-todo-list-reusable>
+    <h2 class="project-title">Tareas del proyecto: {{ project.name }}</h2>
+    <!-- Ahora se pasa el ID del proyecto al componente de la lista de tareas -->
+    <app-todo-list
+        [projectId]="project.id"
+        [tasks]="project.tasks"
+        (taskAdded)="addTask($event)"
+        (taskUpdated)="updateTask($event)"
+        (taskDeleted)="deleteTask($event)"
+        (taskToggled)="toggleTask($event)">
+    </app-todo-list>
 </div>
