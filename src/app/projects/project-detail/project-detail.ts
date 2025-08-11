@@ -5,25 +5,27 @@ import { ActivatedRoute, Router } from '@angular/router';
 // Importa el servicio y las interfaces que definen tus modelos de datos
 import { ProjectService, Task, Project } from '../../services/project.service';
 
-// Importa el componente de lista de tareas reutilizable que creaste
-import { TodoListReusableComponent } from '../../components/todo-list-reusable/todo-list-reusable';
+// Importa el componente de lista de tareas reutilizable que creaste.
+// Se ha corregido el nombre para que coincida con el componente exportado.
+import { TodoListComponent } from '../../components/todo-list-reusable/todo-list-reusable';
 
 @Component({
   selector: 'app-project-detail',
   standalone: true,
   // Declara el componente reutilizable en el array de imports
-  imports: [CommonModule, TodoListReusableComponent],
+  imports: [CommonModule, TodoListComponent],
   template: `
     @if (project) {
       <div class="project-detail-container">
         <h2 class="project-title">Tareas del proyecto: {{ project.name }}</h2>
-        <app-todo-list-reusable
+        <!-- Se ha corregido la etiqueta del componente para que coincida con el selector del componente de lista de tareas -->
+        <app-todo-list
           [tasks]="project.tasks"
           (taskAdded)="addTask($event)"
           (taskUpdated)="updateTask($event)"
           (taskDeleted)="deleteTask($event)"
           (taskToggled)="toggleTask($event)">
-        </app-todo-list-reusable>
+        </app-todo-list>
       </div>
     } @else {
       <p>Proyecto no encontrado.</p>

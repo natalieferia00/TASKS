@@ -1,33 +1,116 @@
-<div class="todo-list-container">
-  <form [formGroup]="taskForm" (ngSubmit)="addTask()">
-    <input type="text" formControlName="text" placeholder="Nueva tarea..." />
-    <input type="date" formControlName="date" />
-    <select formControlName="category">
-      <option *ngFor="let category of categories" [value]="category">
-        {{ category }}
-      </option>
-    </select>
-    <button type="submit" [disabled]="taskForm.invalid">Agregar</button>
-  </form>
+<!-- todo-list-reusable.html -->
+<div class="todo-container">
+    <h1>Lista de Tareas</h1>
 
-  <ul class="task-list">
-    <li *ngFor="let task of tasks" [class.completed]="task.completed" [style.borderLeftColor]="task.color">
-      <div class="task-info">
-        <span class="task-text">{{ task.text }}</span>
-        <span class="task-category" *ngIf="task.category">{{ task.category }}</span>
-        <span class="task-date" *ngIf="task.date">{{ task.date | date }}</span>
-      </div>
-      <div class="task-actions">
-        <button (click)="toggleCompleted(task)">
-          <i [class]="task.completed ? 'fas fa-check-circle' : 'far fa-circle'"></i>
+    <!-- Botones para gestionar categorías y etiquetas -->
+    <div class="manage-buttons">
+        <button (click)="showCategoryManagement = !showCategoryManagement">
+            {{ showCategoryManagement ? 'Ocultar Categorías' : 'Gestionar Categorías' }}
         </button>
-        <button (click)="editTask(task)">
-          <i class="fas fa-edit"></i>
+        <button (click)="showTagManagement = !showTagManagement">
+            {{ showTagManagement ? 'Ocultar Etiquetas' : 'Gestionar Etiquetas' }}
         </button>
-        <button (click)="deleteTask(task.id)">
-          <i class="fas fa-trash-alt"></i>
-        </button>
-      </div>
-    </li>
-  </ul>
+    </div>
+
+    <!-- Formulario para Gestionar Categorías (visible si showCategoryManagement es true) -->
+    <div class="management-form" *ngIf="showCategoryManagement">
+        <h4>Añadir nueva categoría</h4>
+        <div class="input-group">
+            <input type="text" [(ngModel)]="newCategoryName" placeholder="Nombre de la categoría" class="input-field">
+            <input type="color" [(ngModel)]="newCategoryColor" class="input-field color-picker">
+            <button (click)="addCategory()">Añadir Categoría</button>
+        </div>
+        <ul class="item-list">
+            <li *ngFor="let cat of categories" class="item">
+                <span class="color-preview" [style.background-color]="categoryColors[cat]"></span>
+                <span class="item-name">{{ cat }}</span>
+                <button class="delete-button" (click)="deleteCategory(cat)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Formulario para Gestionar Etiquetas (visible si showTagManagement es true) -->
+    <div class="management-form" *ngIf="showTagManagement">
+        <h4>Añadir nueva etiqueta</h4>
+        <div class="input-group">
+            <input type="text" [(ngModel)]="newTagName" placeholder="Nombre de la etiqueta" class="input-field">
+            <input type="color" [(ngModel)]="newTagColor" class="input-field color-picker">
+            <button (click)="addTag()">Añadir Etiqueta</button>
+        </div>
+        <ul class="item-list">
+            <li *ngFor="let tag of tags" class="item">
+                <span class="color-preview" [style.background-color]="tag.color"></span>
+                <span class="item-name">{{ tag.name }}</span>
+                <button class="delete-button" (click)="deleteTag(tag.name)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Formulario para Añadir Tareas -->
+    <form [formGroup]="taskForm" (ngSubmit)="addTask()" class="task-form">
+        <div class="input-with-label">
+            <label for="task-name">Nombre de la Tarea</label>
+            <input type="text" id="task-name" formControlName="text" class="input-field" placeholder="Escribe el nombre de tu tarea" required>
+        </div>
+
+        <div class="input-with-label">
+            <label for="task-category">Categoría</label>
+            <select id="task-category" formControlName="category" class="input-field">
+                <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+        </div>
+
+        <div class="input-with-label">
+            <label for="task-tags-select">Etiquetas</label>
+            <!-- Contenedor para mostrar los chips de etiquetas seleccionadas -->
+            <div class="selected-tags">
+                <div *ngFor="let tagName of taskTags" class="tag-chip" [style.background-color]="getTagColor(tagName)">
+                    <span>{{ tagName }}</span>
+                    <button type="button" (click)="removeTaskTag(tagName)">x</button>
+                </div>
+            </div>
+            
+            <!-- Campo para seleccionar etiquetas existentes -->
+            <select id="task-tags-select" class="input-field" (change)="onTagSelected($event)">
+                <option value="" disabled selected>Selecciona una etiqueta...</option>
+                <option *ngFor="let tag of availableTags" [value]="tag">{{ tag }}</option>
+            </select>
+        </div>
+
+        <button type="submit" [disabled]="!taskForm.valid">Añadir Tarea</button>
+    </form>
+
+    <!-- Lista de Tareas -->
+    <ul class="task-list">
+        <li *ngFor="let task of tasks" [class.completed]="task.completed" class="task-item">
+            <input type="checkbox" class="task-checkbox" [checked]="task.completed" (change)="toggleCompleted(task)">
+            <div class="task-content">
+                <div class="task-text">{{ task.text }}</div>
+                <div class="task-meta">
+                    <div class="task-category">
+                        <span class="category-dot" [style.background-color]="getCategoryColor(task.category)"></span>
+                        {{ task.category }}
+                    </div>
+                    <!-- Lógica para mostrar las etiquetas de la tarea -->
+                    <div class="task-tags">
+                        <span *ngFor="let tag of task.tags" class="tag-badge" [style.background-color]="getTagColor(tag.name)">
+                            {{ tag.name }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="task-actions">
+                <button class="edit-button" (click)="editTask(task)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-edit"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                </button>
+                <button class="delete-button" (click)="deleteTask(task.id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                </button>
+            </div>
+        </li>
+    </ul>
 </div>
