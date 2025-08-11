@@ -111,7 +111,7 @@ body {
 .input-field.color-picker::-webkit-color-swatch { border: none; border-radius: 8px; }
 
 button {
-    background: linear-gradient(45deg, $primary-color, $secondary-color);
+    background: $primary-color; /* Cambiado a color sólido */
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -127,6 +127,7 @@ button:hover:not([disabled]) {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     filter: brightness(1.1);
+    background-color: $secondary-color; /* Cambio de color en hover para el efecto */
 }
 
 button:disabled {
@@ -443,3 +444,4 @@ button:disabled {
         margin-top: 1rem;
     }
 }
+
