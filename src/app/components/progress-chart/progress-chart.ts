@@ -90,12 +90,12 @@ export class ProgressChartComponent implements OnInit, AfterViewInit {
             ctx.restore();
             const centerX = chart.getDatasetMeta(0).data[0].x;
             const centerY = chart.getDatasetMeta(0).data[0].y;
-            ctx.font = '1.8rem Roboto Script'; // Actualizado para usar la misma fuente que los títulos
+            ctx.font = 'bold 1.8rem Poppins';
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(`${percentage}%`, centerX, centerY - 10);
-            ctx.font = '0.8rem Roboto Script'; // Actualizado para usar la misma fuente que los títulos
+            ctx.font = '500 0.8rem Poppins';
             ctx.fillStyle = '#bbb';
             ctx.fillText('Tareas', centerX, centerY + 15);
             ctx.save();
@@ -163,12 +163,12 @@ export class ProgressChartComponent implements OnInit, AfterViewInit {
             ctx.restore();
             const centerX = chart.getDatasetMeta(0).data[0].x;
             const centerY = chart.getDatasetMeta(0).data[0].y;
-            ctx.font = '1.8rem Roboto Script'; // Actualizado para usar la misma fuente que los títulos
+            ctx.font = 'bold 1.8rem Poppins';
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(`${percentage}%`, centerX, centerY - 10);
-            ctx.font = '0.8rem Roboto Script'; // Actualizado para usar la misma fuente que los títulos
+            ctx.font = '500 0.8rem Poppins';
             ctx.fillStyle = '#bbb';
             ctx.fillText('Hábitos', centerX, centerY + 15);
             ctx.save();

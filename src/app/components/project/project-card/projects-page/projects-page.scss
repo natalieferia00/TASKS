@@ -1,12 +1,13 @@
 .projects-page-container {
     padding: 1.5rem;
-    background-color: #000000; /* Fondo oscuro */
+    background-color: #000000;
     min-height: 100vh;
-    color: #ffffff; /* Color de texto general */
-    box-sizing: border-box; /* Incluye padding en el ancho/alto */
+    color: #ffffff;
+    box-sizing: border-box;
+    position: relative; 
 
-    @media (min-width: 500px) {
-        max-width: 800px;
+    @media (min-width: 768px) {
+        max-width: 1024px;
         margin: 0 auto;
         padding: 2rem;
     }
@@ -28,10 +29,10 @@
     .new-project-form {
         display: flex;
         gap: 0.5rem;
-        flex-direction: column; /* Apilado en móvil */
+        flex-direction: column;
 
         @media (min-width: 500px) {
-            flex-direction: row; /* En fila en pantallas grandes */
+            flex-direction: row;
         }
 
         .project-name-input {
@@ -49,7 +50,7 @@
         }
 
         .add-project-button {
-            width: 100%; /* Ancho completo en móvil */
+            width: 100%;
             padding: 0.75rem 1rem;
             background-color: #a000fe;
             color: white;
@@ -60,7 +61,7 @@
             transition: background-color 0.3s ease;
 
             @media (min-width: 500px) {
-                width: auto; /* Ancho automático en pantallas grandes */
+                width: auto;
             }
 
             &:disabled {
@@ -86,11 +87,12 @@
 
     .project-cards-grid {
         display: grid;
-        grid-template-columns: 1fr; /* Una columna en móvil */
-        gap: 1.5rem; /* Espacio entre tarjetas */
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
 
-        @media (min-width: 500px) {
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 2+ columnas en pantallas grandes */
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
         }
     }
 
@@ -102,49 +104,50 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añadida transición para box-shadow */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         cursor: pointer;
         position: relative;
         color: #ffffff;
         
         &:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* Sombra más grande al pasar el cursor */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); 
         }
         
-        /* Aplicar los colores por defecto con nth-child */
-        &:nth-child(3n + 1) { background-color: #a000fe; } /* Morado */
-        &:nth-child(3n + 2) { background-color: #2b00ff; } /* Azul */
-        &:nth-child(3n + 3) { background-color: #e53935; } /* Rojo */
+        /* Paleta de colores en tonos morados */
+        &:nth-child(4n + 1) { background-color: #1b1a1b; } /* Morado Oscuro */
+        &:nth-child(4n + 2) { background-color: #a000fe; } /* Morado Clásico */
+        &:nth-child(4n + 3) { background-color: #2d2d33; } /* Lavanda */
+        &:nth-child(4n + 4) { background-color: #070607; } /* Magenta (toque de color) */
 
         .project-card-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start; /* Alinea los elementos al inicio */
+            align-items: flex-start;
             
             .project-icon {
-                font-size: 1.8rem; /* Icono más grande */
+                font-size: 1.8rem;
             }
 
             .project-actions {
                 display: flex;
-                gap: 0.5rem; /* Espacio entre botones de acción */
+                gap: 0.5rem;
                 
                 .action-button {
                     background: none;
                     border: none;
                     color: rgba(255, 255, 255, 0.8);
-                    font-size: 1.1rem; /* Tamaño de los iconos de acción */
+                    font-size: 1.1rem;
                     cursor: pointer;
                     transition: color 0.3s ease;
-                    padding: 0.5rem; /* Aumentar el área de toque */
+                    padding: 0.5rem;
 
                     &:hover {
                         color: white;
                     }
                 }
-                .edit-button:hover { color: #4B6CB7; } /* Azul para editar */
-                .delete-button:hover { color: #e53935; } /* Rojo para eliminar */
+                .edit-button:hover { color: #b39ddb; } /* Lavanda para editar */
+                .delete-button:hover { color: #e91e63; } /* Magenta para eliminar */
             }
         }
         
