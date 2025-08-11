@@ -29,14 +29,17 @@ export interface Task {
 })
 export class TodoListComponent implements OnInit {
 
-  // AÑADE ESTA LÍNEA: Acepta el ID del proyecto como un Input.
-  // Esto resuelve el error "Can't bind to 'projectId'".
   @Input() projectId: number | undefined;
 
   // Recibe la lista de tareas del componente padre
   @Input() tasks: Task[] = [];
+  
+  // Lista de tareas filtradas para mostrar en la UI
+  filteredTasks: Task[] = [];
+  
+  // Término de búsqueda
+  searchTerm: string = '';
 
-  // Emite eventos para que el padre gestione las acciones
   @Output() taskAdded = new EventEmitter<Omit<Task, 'id' | 'completed'>>();
   @Output() taskUpdated = new EventEmitter<Task>();
   @Output() taskDeleted = new EventEmitter<number>();
@@ -69,10 +72,13 @@ export class TodoListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // 1. Cargar las tareas, categorías y etiquetas desde el localStorage
+    // 1. Cargar los datos desde el localStorage
     this.loadDataFromLocalStorage();
 
-    // 2. Establecer los valores iniciales en el formulario una vez que los datos estén cargados
+    // 2. Inicializar la lista de tareas filtradas con todas las tareas
+    this.filteredTasks = [...this.tasks];
+    
+    // 3. Establecer los valores iniciales en el formulario
     if (this.categories.length > 0) {
       this.taskForm.get('category')?.setValue(this.categories[0]);
     }
@@ -85,7 +91,6 @@ export class TodoListComponent implements OnInit {
    */
   private loadDataFromLocalStorage(): void {
     if (!this.projectId) {
-      // Manejar el caso sin projectId para valores predeterminados
       this.tasks = [];
       this.categories = ['Work', 'Personal', 'Study', 'Shopping'];
       this.categoryColors = { 'Work': '#6200ea', 'Personal': '#03dac6', 'Study': '#ffc107', 'Shopping': '#e91e63' };
@@ -145,6 +150,20 @@ export class TodoListComponent implements OnInit {
     localStorage.setItem(categoryColorsKey, JSON.stringify(this.categoryColors));
     localStorage.setItem(tagsKey, JSON.stringify(this.tags));
   }
+  
+  /**
+   * Filtra las tareas según el término de búsqueda.
+   */
+  onSearch(): void {
+    if (!this.searchTerm) {
+      this.filteredTasks = [...this.tasks];
+    } else {
+      const lowerCaseSearchTerm = this.searchTerm.toLowerCase();
+      this.filteredTasks = this.tasks.filter(task =>
+        task.text.toLowerCase().includes(lowerCaseSearchTerm)
+      );
+    }
+  }
 
   addTask(): void {
     if (this.taskForm.valid) {
@@ -157,6 +176,9 @@ export class TodoListComponent implements OnInit {
       this.taskAdded.emit(newTask);
       this.taskForm.reset({ category: this.categories[0], tags: [] });
       this.taskTags = [];
+      
+      // Actualiza la lista filtrada después de añadir una tarea
+      this.onSearch();
     }
   }
 
@@ -167,6 +189,8 @@ export class TodoListComponent implements OnInit {
       this.tasks[index] = updatedTask;
       this.saveDataToLocalStorage();
       this.taskToggled.emit(updatedTask);
+      // Actualiza la lista filtrada después de alternar el estado
+      this.onSearch();
     }
   }
 
@@ -174,6 +198,8 @@ export class TodoListComponent implements OnInit {
     this.tasks = this.tasks.filter(task => task.id !== id);
     this.saveDataToLocalStorage();
     this.taskDeleted.emit(id);
+    // Actualiza la lista filtrada después de eliminar una tarea
+    this.onSearch();
   }
 
   editTask(task: Task): void {
@@ -185,6 +211,8 @@ export class TodoListComponent implements OnInit {
         this.tasks[index] = updatedTask;
         this.saveDataToLocalStorage();
         this.taskUpdated.emit(updatedTask);
+        // Actualiza la lista filtrada después de editar una tarea
+        this.onSearch();
       }
     }
   }

@@ -37,6 +37,11 @@ export class TodoListComponent implements OnInit {
     // Contador para asignar un ID único a cada nueva tarea
     nextId = 1;
 
+    // Propiedad para el término de búsqueda
+    searchTerm: string = '';
+    // Lista de tareas filtradas para mostrar en la interfaz de usuario
+    filteredTasks: Task[] = [];
+
     // Mapa para asociar categorías con colores
     categoryColors: { [key: string]: string } = {
         Work: '#a000fe',
@@ -68,6 +73,8 @@ export class TodoListComponent implements OnInit {
     ngOnInit(): void {
         // Carga los datos guardados en el almacenamiento local al iniciar el componente
         this.loadData();
+        // Inicialmente, la lista filtrada es la lista completa de tareas
+        this.filteredTasks = [...this.tasks];
     }
 
     /**
@@ -104,6 +111,20 @@ export class TodoListComponent implements OnInit {
         localStorage.setItem('categories', JSON.stringify(this.categories));
         localStorage.setItem('categoryColors', JSON.stringify(this.categoryColors));
     }
+    
+    /**
+     * Filtra la lista de tareas basándose en el término de búsqueda.
+     */
+    onSearch(): void {
+        if (!this.searchTerm) {
+            this.filteredTasks = [...this.tasks];
+        } else {
+            const lowerCaseSearchTerm = this.searchTerm.toLowerCase();
+            this.filteredTasks = this.tasks.filter(task =>
+                task.text.toLowerCase().includes(lowerCaseSearchTerm)
+            );
+        }
+    }
 
     /**
      * Añade una nueva tarea a la lista si el formulario es válido.
@@ -124,6 +145,7 @@ export class TodoListComponent implements OnInit {
             this.tasks.push(newTask);
             this.saveData(); // Guarda los cambios en el localStorage
             this.taskForm.reset({ category: this.categories[0] });
+            this.onSearch(); // Actualiza la lista filtrada
         }
     }
 
@@ -134,6 +156,7 @@ export class TodoListComponent implements OnInit {
     toggleCompleted(task: Task): void {
         task.completed = !task.completed;
         this.saveData(); // Guarda los cambios en el localStorage
+        this.onSearch(); // Actualiza la lista filtrada
     }
 
     /**
@@ -143,6 +166,7 @@ export class TodoListComponent implements OnInit {
     deleteTask(id: number): void {
         this.tasks = this.tasks.filter((task) => task.id !== id);
         this.saveData(); // Guarda los cambios en el localStorage
+        this.onSearch(); // Actualiza la lista filtrada
     }
 
     /**
@@ -154,6 +178,7 @@ export class TodoListComponent implements OnInit {
         if (newText !== null && newText.trim() !== '') {
             task.text = newText;
             this.saveData(); // Guarda los cambios en el localStorage
+            this.onSearch(); // Actualiza la lista filtrada
         }
     }
 
@@ -197,6 +222,7 @@ export class TodoListComponent implements OnInit {
             }
 
             this.saveData();
+            this.onSearch(); // Actualiza la lista filtrada
         }
     }
 }

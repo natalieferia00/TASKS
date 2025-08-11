@@ -1,39 +1,30 @@
+<!-- search-tasks.html -->
 <div class="search-tasks-container">
-    <div class="search-bar">
-        <i class="fas fa-search search-icon"></i>
-        <!-- El input está enlazado a la propiedad 'searchTerm' y llama a 'onSearch' en cada entrada -->
-        <input 
-            type="text" 
-            placeholder="Buscar tarea..." 
-            [(ngModel)]="searchTerm" 
+    <div class="search-bar-wrapper">
+        <input
+            type="text"
+            placeholder="Buscar todas las tareas..."
+            [(ngModel)]="searchTerm"
             (input)="onSearch()"
         />
-        <i class="fas fa-microphone mic-icon"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
     </div>
 
-    <!-- La lista de resultados solo se muestra si el término de búsqueda no está vacío y hay resultados -->
-    <div *ngIf="searchTerm && filteredTasks.length > 0" class="search-results">
-        <div *ngFor="let task of filteredTasks" class="task-item">
-            <div class="task-info">
-                <input 
-                    type="checkbox" 
-                    [id]="'task-' + task.id" 
-                    [(ngModel)]="task.completed"
-                    (change)="onTaskCompletionChange(task)"
-                />
-                <label 
-                    [for]="'task-' + task.id" 
-                    class="task-name" 
-                    [class.completed]="task.completed"
-                >
-                    {{ task.name }}
-                </label>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Mensaje para cuando no se encuentran resultados -->
-    <div *ngIf="searchTerm && filteredTasks.length === 0" class="no-results">
-      No se encontraron tareas que coincidan con la búsqueda.
+    <div class="results-list">
+        @if (filteredTasks.length > 0) {
+            @for (task of filteredTasks; track task.id) {
+                <div class="task-result">
+                    <span class="task-text">{{ task.text }}</span>
+                    @if (task.date) {
+                        <span class="task-date">{{ task.date }}</span>
+                    }
+                    <span class="task-status" [class.completed]="task.completed">
+                        {{ task.completed ? 'Completada' : 'Pendiente' }}
+                    </span>
+                </div>
+            }
+        } @else {
+            <p class="no-results">No se encontraron tareas.</p>
+        }
     </div>
 </div>
